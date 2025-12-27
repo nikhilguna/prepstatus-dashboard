@@ -17,7 +17,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Bell, Search, Filter, Users, UserPlus } from 'lucide-react';
+import { Bell, Search, Filter, Users, UserPlus, LayoutGrid, List } from 'lucide-react';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 const Index = () => {
   const [patients, setPatients] = useState<Patient[]>(mockPatients);
@@ -25,6 +26,7 @@ const Index = () => {
   const [alertsOpen, setAlertsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   const currentPatients = patients.filter((p) => p.isActivated);
   const prospectivePatients = patients.filter((p) => !p.isActivated);
@@ -102,6 +104,18 @@ const Index = () => {
                 <SelectItem value="at-risk">At Risk</SelectItem>
               </SelectContent>
             </Select>
+            <ToggleGroup 
+              type="single" 
+              value={viewMode} 
+              onValueChange={(value) => value && setViewMode(value as 'grid' | 'list')}
+            >
+              <ToggleGroupItem value="grid" aria-label="Grid view">
+                <LayoutGrid className="h-4 w-4" />
+              </ToggleGroupItem>
+              <ToggleGroupItem value="list" aria-label="List view">
+                <List className="h-4 w-4" />
+              </ToggleGroupItem>
+            </ToggleGroup>
           </div>
         </div>
       </header>
@@ -148,13 +162,14 @@ const Index = () => {
             </div>
 
             {/* Patient List */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+            <div className={viewMode === 'grid' ? 'grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4' : 'flex flex-col gap-3'}>
               {filteredCurrentPatients.map((patient) => (
                 <PatientCard
                   key={patient.id}
                   patient={patient}
                   onClick={() => setSelectedPatient(patient)}
                   isSelected={selectedPatient?.id === patient.id}
+                  viewMode={viewMode}
                 />
               ))}
             </div>
@@ -176,9 +191,9 @@ const Index = () => {
             </div>
 
             {/* Prospective Patient List */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+            <div className={viewMode === 'grid' ? 'grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4' : 'flex flex-col gap-3'}>
               {filteredProspectivePatients.map((patient) => (
-                <ProspectivePatientCard key={patient.id} patient={patient} />
+                <ProspectivePatientCard key={patient.id} patient={patient} viewMode={viewMode} />
               ))}
             </div>
 

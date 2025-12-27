@@ -11,10 +11,89 @@ interface PatientCardProps {
   patient: Patient;
   onClick: () => void;
   isSelected: boolean;
+  viewMode?: 'grid' | 'list';
 }
 
-export function PatientCard({ patient, onClick, isSelected }: PatientCardProps) {
+export function PatientCard({ patient, onClick, isSelected, viewMode = 'grid' }: PatientCardProps) {
   const hasAlerts = patient.alerts.length > 0;
+
+  if (viewMode === 'list') {
+    return (
+      <Card
+        className={cn(
+          'p-4 cursor-pointer transition-all hover:shadow-md',
+          isSelected && 'ring-2 ring-primary shadow-lg',
+          hasAlerts && 'border-l-4 border-l-destructive'
+        )}
+        onClick={onClick}
+      >
+        <div className="flex items-center gap-6">
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-3">
+              <h3 className="font-semibold text-lg truncate">{patient.name}</h3>
+              <StatusBadge status={patient.status} />
+            </div>
+            <div className="flex items-center gap-4 text-sm text-muted-foreground mt-1">
+              <div className="flex items-center gap-1">
+                <Calendar className="h-3.5 w-3.5" />
+                {patient.procedureDate.toLocaleDateString('en-US', {
+                  month: 'short',
+                  day: 'numeric',
+                })}
+              </div>
+              <div className="flex items-center gap-1">
+                <Clock className="h-3.5 w-3.5" />
+                {patient.procedureTime}
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-6">
+            <div className="text-center">
+              <div className="text-xs text-muted-foreground mb-1">Stool Quality</div>
+              <StoolQualityIndicator quality={patient.lastStoolQuality} compact />
+            </div>
+
+            <div className="text-center">
+              <div className="text-xs text-muted-foreground mb-1">Last Check-in</div>
+              <span className="text-sm font-medium">
+                {formatDistanceToNow(patient.lastCheckIn, { addSuffix: true })}
+              </span>
+            </div>
+
+            {patient.symptoms.length > 0 && (
+              <div className="flex gap-1.5">
+                {patient.symptoms.map((symptom) => (
+                  <Badge key={symptom} variant="outline" className="text-xs capitalize">
+                    {symptom}
+                  </Badge>
+                ))}
+              </div>
+            )}
+
+            <div className="flex items-center gap-2">
+              <div className="w-20 h-2 bg-muted rounded-full overflow-hidden">
+                <div
+                  className={cn(
+                    'h-full transition-all rounded-full',
+                    patient.readinessPrediction >= 80
+                      ? 'bg-success'
+                      : patient.readinessPrediction >= 60
+                      ? 'bg-warning'
+                      : 'bg-destructive'
+                  )}
+                  style={{ width: `${patient.readinessPrediction}%` }}
+                />
+              </div>
+              <span className="text-sm font-semibold w-10 text-right">
+                {patient.readinessPrediction}%
+              </span>
+            </div>
+          </div>
+        </div>
+      </Card>
+    );
+  }
 
   return (
     <Card
