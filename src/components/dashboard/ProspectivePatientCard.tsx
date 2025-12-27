@@ -9,9 +9,10 @@ import { toast } from 'sonner';
 
 interface ProspectivePatientCardProps {
   patient: Patient;
+  viewMode?: 'grid' | 'list';
 }
 
-export function ProspectivePatientCard({ patient }: ProspectivePatientCardProps) {
+export function ProspectivePatientCard({ patient, viewMode = 'grid' }: ProspectivePatientCardProps) {
   const [copied, setCopied] = useState(false);
 
   const copyCode = () => {
@@ -24,6 +25,50 @@ export function ProspectivePatientCard({ patient }: ProspectivePatientCardProps)
   const prepTypeLabels: Record<string, string> = {
     'miralax-gatorade': 'MiraLAX + Gatorade',
   };
+
+  if (viewMode === 'list') {
+    return (
+      <Card className="p-4">
+        <div className="flex items-center gap-6">
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-3">
+              <h3 className="font-semibold text-lg truncate">{patient.name}</h3>
+              <Badge variant="secondary">Pending Activation</Badge>
+            </div>
+            <div className="flex items-center gap-4 text-sm text-muted-foreground mt-1">
+              <span>DOB: {format(patient.dateOfBirth, 'MMM d, yyyy')}</span>
+              <div className="flex items-center gap-1">
+                <Calendar className="h-3.5 w-3.5" />
+                {format(patient.procedureDate, 'MMM d, yyyy')}
+              </div>
+              <div className="flex items-center gap-1">
+                <Clock className="h-3.5 w-3.5" />
+                {patient.procedureTime}
+              </div>
+            </div>
+          </div>
+
+          <div className="text-sm">
+            <span className="text-muted-foreground">Prep: </span>
+            <span className="font-medium">{prepTypeLabels[patient.prepType]}</span>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <div className="font-mono text-lg font-bold tracking-wider">
+              {patient.activationCode}
+            </div>
+            <Button variant="outline" size="sm" onClick={copyCode}>
+              {copied ? (
+                <Check className="h-4 w-4 text-success" />
+              ) : (
+                <Copy className="h-4 w-4" />
+              )}
+            </Button>
+          </div>
+        </div>
+      </Card>
+    );
+  }
 
   return (
     <Card className="p-4">
