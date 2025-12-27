@@ -39,6 +39,27 @@ export function PatientDetailPanel({ patient, open, onClose }: PatientDetailPane
 
         <ScrollArea className="h-[calc(100vh-8rem)] mt-6 pr-4">
           <div className="space-y-6">
+            {/* Patient Info */}
+            <div className="space-y-2">
+              <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+                Patient Details
+              </h3>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="text-sm">
+                  <div className="text-xs text-muted-foreground">Date of Birth</div>
+                  <div className="font-medium">
+                    {format(patient.dateOfBirth, 'MMM d, yyyy')}
+                  </div>
+                </div>
+                <div className="text-sm">
+                  <div className="text-xs text-muted-foreground">Prep Type</div>
+                  <div className="font-medium">MiraLAX + Gatorade</div>
+                </div>
+              </div>
+            </div>
+
+            <Separator />
+
             {/* Procedure Info */}
             <div className="space-y-2">
               <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
@@ -50,11 +71,7 @@ export function PatientDetailPanel({ patient, open, onClose }: PatientDetailPane
                   <div>
                     <div className="text-xs text-muted-foreground">Date</div>
                     <div className="font-medium">
-                      {patient.procedureDate.toLocaleDateString('en-US', {
-                        month: 'long',
-                        day: 'numeric',
-                        year: 'numeric',
-                      })}
+                      {format(patient.procedureDate, 'MMMM d, yyyy')}
                     </div>
                   </div>
                 </div>
