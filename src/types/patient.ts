@@ -1,6 +1,7 @@
 export type StoolQuality = 'solid' | 'liquid' | 'cloudy' | 'clear';
 export type PatientStatus = 'ready' | 'progressing' | 'at-risk';
 export type Symptom = 'nausea' | 'vomiting' | 'dizziness';
+export type PrepType = 'miralax-gatorade';
 
 export interface CheckIn {
   id: string;
@@ -22,8 +23,12 @@ export interface Alert {
 export interface Patient {
   id: string;
   name: string;
+  dateOfBirth: Date;
   procedureDate: Date;
   procedureTime: string;
+  prepType: PrepType;
+  activationCode: string;
+  isActivated: boolean;
   status: PatientStatus;
   lastStoolQuality: StoolQuality;
   lastCheckIn: Date;

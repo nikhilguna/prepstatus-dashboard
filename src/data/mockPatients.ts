@@ -4,11 +4,15 @@ export const mockPatients: Patient[] = [
   {
     id: '1',
     name: 'Sarah Johnson',
+    dateOfBirth: new Date('1975-03-15'),
     procedureDate: new Date('2025-11-23'),
     procedureTime: '08:00 AM',
+    prepType: 'miralax-gatorade',
+    activationCode: 'SJ7K2M',
+    isActivated: true,
     status: 'ready',
     lastStoolQuality: 'clear',
-    lastCheckIn: new Date(Date.now() - 1000 * 60 * 15), // 15 min ago
+    lastCheckIn: new Date(Date.now() - 1000 * 60 * 15),
     symptoms: [],
     readinessPrediction: 95,
     checkIns: [
@@ -42,11 +46,15 @@ export const mockPatients: Patient[] = [
   {
     id: '2',
     name: 'Michael Chen',
+    dateOfBirth: new Date('1982-08-22'),
     procedureDate: new Date('2025-11-23'),
     procedureTime: '09:30 AM',
+    prepType: 'miralax-gatorade',
+    activationCode: 'MC9P4L',
+    isActivated: true,
     status: 'progressing',
     lastStoolQuality: 'cloudy',
-    lastCheckIn: new Date(Date.now() - 1000 * 60 * 45), // 45 min ago
+    lastCheckIn: new Date(Date.now() - 1000 * 60 * 45),
     symptoms: ['nausea'],
     readinessPrediction: 72,
     checkIns: [
@@ -74,11 +82,15 @@ export const mockPatients: Patient[] = [
   {
     id: '3',
     name: 'Patricia Williams',
+    dateOfBirth: new Date('1968-11-05'),
     procedureDate: new Date('2025-11-23'),
     procedureTime: '10:00 AM',
+    prepType: 'miralax-gatorade',
+    activationCode: 'PW3N8Q',
+    isActivated: true,
     status: 'at-risk',
     lastStoolQuality: 'solid',
-    lastCheckIn: new Date(Date.now() - 1000 * 60 * 150), // 2.5 hours ago
+    lastCheckIn: new Date(Date.now() - 1000 * 60 * 150),
     symptoms: ['vomiting', 'dizziness'],
     readinessPrediction: 35,
     checkIns: [
@@ -117,11 +129,15 @@ export const mockPatients: Patient[] = [
   {
     id: '4',
     name: 'James Rodriguez',
+    dateOfBirth: new Date('1990-06-18'),
     procedureDate: new Date('2025-11-23'),
     procedureTime: '11:00 AM',
+    prepType: 'miralax-gatorade',
+    activationCode: 'JR6T2V',
+    isActivated: true,
     status: 'progressing',
     lastStoolQuality: 'liquid',
-    lastCheckIn: new Date(Date.now() - 1000 * 60 * 30), // 30 min ago
+    lastCheckIn: new Date(Date.now() - 1000 * 60 * 30),
     symptoms: [],
     readinessPrediction: 68,
     checkIns: [
@@ -149,11 +165,15 @@ export const mockPatients: Patient[] = [
   {
     id: '5',
     name: 'Linda Martinez',
+    dateOfBirth: new Date('1978-01-30'),
     procedureDate: new Date('2025-11-23'),
     procedureTime: '01:30 PM',
+    prepType: 'miralax-gatorade',
+    activationCode: 'LM4H9R',
+    isActivated: true,
     status: 'ready',
     lastStoolQuality: 'clear',
-    lastCheckIn: new Date(Date.now() - 1000 * 60 * 20), // 20 min ago
+    lastCheckIn: new Date(Date.now() - 1000 * 60 * 20),
     symptoms: [],
     readinessPrediction: 92,
     checkIns: [
@@ -176,6 +196,41 @@ export const mockPatients: Patient[] = [
         symptoms: [],
       },
     ],
+    alerts: [],
+  },
+  // Prospective patients (not yet activated)
+  {
+    id: '6',
+    name: 'Robert Thompson',
+    dateOfBirth: new Date('1985-04-12'),
+    procedureDate: new Date('2025-11-24'),
+    procedureTime: '09:00 AM',
+    prepType: 'miralax-gatorade',
+    activationCode: 'RT5K3W',
+    isActivated: false,
+    status: 'progressing',
+    lastStoolQuality: 'solid',
+    lastCheckIn: new Date(),
+    symptoms: [],
+    readinessPrediction: 0,
+    checkIns: [],
+    alerts: [],
+  },
+  {
+    id: '7',
+    name: 'Emily Davis',
+    dateOfBirth: new Date('1992-09-28'),
+    procedureDate: new Date('2025-11-24'),
+    procedureTime: '10:30 AM',
+    prepType: 'miralax-gatorade',
+    activationCode: 'ED8M1Y',
+    isActivated: false,
+    status: 'progressing',
+    lastStoolQuality: 'solid',
+    lastCheckIn: new Date(),
+    symptoms: [],
+    readinessPrediction: 0,
+    checkIns: [],
     alerts: [],
   },
 ];
