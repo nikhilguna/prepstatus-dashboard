@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 import { mockPatients } from '@/data/mockPatients';
 import { Patient, Alert } from '@/types/patient';
 import { PatientCard } from '@/components/dashboard/PatientCard';
@@ -17,16 +19,23 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Bell, Search, Filter, Users, UserPlus, LayoutGrid, List } from 'lucide-react';
+import { Bell, Search, Filter, Users, UserPlus, LayoutGrid, List, LogOut } from 'lucide-react';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 const Index = () => {
+  const { clinicName, logout } = useAuth();
+  const navigate = useNavigate();
   const [patients, setPatients] = useState<Patient[]>(mockPatients);
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
   const [alertsOpen, setAlertsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
   const currentPatients = patients.filter((p) => p.isActivated);
   const prospectivePatients = patients.filter((p) => !p.isActivated);
@@ -56,7 +65,7 @@ const Index = () => {
             <div>
               <h1 className="text-2xl font-bold">SmarterPrep Dashboard</h1>
               <p className="text-sm text-muted-foreground">
-                Real-time colonoscopy prep monitoring
+                {clinicName ? `${clinicName} • ` : ''}Real-time colonoscopy prep monitoring
               </p>
             </div>
             <div className="flex items-center gap-3">
@@ -77,6 +86,14 @@ const Index = () => {
                     {allAlerts.length}
                   </Badge>
                 )}
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleLogout}
+              >
+                <LogOut className="h-4 w-4 mr-2" />
+                Logout
               </Button>
             </div>
           </div>
